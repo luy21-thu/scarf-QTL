@@ -12,14 +12,34 @@ The repository includes scripts for real-data analysis and simulation studies. L
 
 ## Repository structure
 
-```text
-code/
-  realdata/       real-data analysis scripts
-  simulation/     simulation scripts
+The repository is organized into real-data and simulation pipelines.
 
-data/
-  input data placeholders or small example files only
+- `code/scarf_QTL_function.R`: core functions for scarf-QTL and the pseudobulk baseline. The scarf-QTL implementation includes model fitting, association testing, and effect estimation.
+- `code/realdata/`: scripts for reproducing the real-data analyses in the manuscript.
+- `code/simulation/`: scripts for reproducing the simulation studies in the manuscript.
+- `data/`: input data directory.
+- `results/`: output directory for intermediate and summary results.
 
-results/
-  realdata/       summary outputs and figures for real-data analysis
-  simulation/     summary outputs and figures for simulations
+### Real-data pipeline
+The real-data analysis scripts should be run in the following order:
+
+- `1_prepare_data.R`
+- `2_fit_null_hypothesis.R`
+- `3_retrospective_test.R`
+- `4_estimation.R`
+- `5_cluster_and_summary.R`
+- `6_plot_realdata.R`
+
+### Simulation pipeline
+The simulation scripts should be run in the following order:
+
+- `1_generate_data.R`
+- `2_test.R`
+- `3_permutation.R`
+- `4_runtime.R`
+- `5_summary.R`
+- `6_plot_simulation.R`
+
+Each script contains detailed comments on the required inputs, outputs, and usage.
+
+P.S. A lightweight toy example will be added in a future update to illustrate the workflow on a small dataset.
