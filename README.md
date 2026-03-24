@@ -8,7 +8,7 @@ Code for the manuscript:
 
 This repository contains code for scarf-QTL, a statistical framework for genome-wide mapping of static and dynamic single-cell eQTLs. The method combines a functional mixed model with a retrospective association test to detect genetic effects that vary along pseudotime.
 
-The repository includes scripts for real-data analysis and simulation studies. Large raw data files and intermediate results are not included in this repository.
+The repository includes scripts for real-data analysis, simulation studies, and a lightweight toy example. Large raw data files and intermediate results are not included in this repository.
 
 ## Repository structure
 
@@ -17,6 +17,7 @@ The repository is organized into real-data and simulation pipelines.
 - `code/scarf_QTL_function.R`: core functions for scarf-QTL and the pseudobulk baseline. The scarf-QTL implementation includes model fitting, association testing, and effect estimation.
 - `code/realdata/`: scripts for reproducing the real-data analyses in the manuscript.
 - `code/simulation/`: scripts for reproducing the simulation studies in the manuscript.
+- `example/`: a lightweight toy example illustrating the basic scarf-QTL workflow on a small dataset.
 - `data/`: input data directory.
 - `results/`: output directory for intermediate and summary results.
 
@@ -42,4 +43,11 @@ The simulation scripts should be run in the following order:
 
 Each script contains detailed comments on the required inputs, outputs, and usage.
 
-P.S. A lightweight toy example will be added in a future update to illustrate the workflow on a small dataset.
+## Toy example
+
+A lightweight toy example is provided in `example/` to illustrate the basic usage of scarf-QTL on a small dataset.
+
+- `example/produce_toy_example_data.R`: generates the toy dataset and saves it as `example/toy_example_data.RData`
+- `example/run_toy_example.R`: loads the toy data and runs scarf-QTL on the example dataset
+
+This toy example is intended to demonstrate the basic usage of scarf-QTL, rather than reproduce the full manuscript analyses.
