@@ -18,7 +18,7 @@ library(stringr)
 
 # ===== 1. Define directories, labels, and plotting constants =====
 {
-  DIR_summary <- "results/simulation/intermediate/summary"
+  DIR_summary <- "results/simulation/summary"
   DIR_fig <- "results/simulation/figures"
   dir.create(DIR_fig, recursive = TRUE, showWarnings = FALSE)
   
@@ -27,6 +27,23 @@ library(stringr)
   cTeX_simu <- sprintf("$%s%s$", str_replace(CT_simu, " ", "_{"), 
                        ifelse(str_detect(CT_simu, " "), "}", ""))
   models <- c("normal", "poisson", "nbinom")
+  
+  method_levels6 <- c("P_static", "P_dynamic", "P_combined", 
+                     "P_static_Standard", "P_dynamic_Standard", "P_Spearman")
+  method_labels6 <- c("scarf-QTL: static", "scarf-QTL: dynamic", "scarf-QTL: combined",
+                     "Prospective: static", "Prospective: dynamic", "Pseudobulk")
+  method_colors6 <- setNames(
+    c("deepskyblue3", "brown3", "mediumpurple3",
+      "lightblue", "pink3", "orange"), method_labels6)
+  
+  method_raw <- c("P_static", "P_dynamic", "P_combined")
+  method_label <- c("scar-QTL: static", "scar-QTL: dynamic", "scar-QTL: combined", "Pseudobulk")
+  method_colors4 <- c(
+    "P_static"   = "deepskyblue3",  
+    "P_dynamic"  = "brown3", 
+    "P_combined" = "mediumpurple3",
+    "P_Spearman" = "orange"
+  )
 }
 
 # ===== Table 1, S1 and S2. Type I error control across simulation settings =====
@@ -66,17 +83,11 @@ library(stringr)
 
 # ===== Figure 2. False positive eGenes under permutation-based calibration =====
 {
-  method_levels <- c("P_static", "P_dynamic", "P_combined", 
-                     "P_static_Standard", "P_dynamic_Standard")
-  method_labels <- c("scarf-QTL: static", "scarf-QTL: dynamic", "scarf-QTL: combined",
-                     "Prospective: static", "Prospective: dynamic")
-  method_colors <- setNames(
-    c("deepskyblue3", "brown3", "mediumpurple3",
-      "lightblue", "pink3"), method_labels)
+  
   Permute_df <- readRDS(sprintf("%s/Permute_df.rds", DIR_summary))
   N_eGene_df <- Permute_df %>% 
     filter(parameter == "N_eGene") %>% 
-    mutate(Method = factor(method, levels = method_levels, labels = method_labels)) %>% 
+    mutate(Method = factor(method, levels = method_levels6[-6], labels = method_labels6[-6])) %>% 
     filter(!is.na(Method))
   
   ggplot(N_eGene_df, aes(x = Method, y = log1p(value), col = Method))+
@@ -106,17 +117,9 @@ library(stringr)
                             "Peak", "Two stage (reverse)", 
                             "Cyclic", "Cyclic (2 period)", "Cyclic (reverse)")
     
-    method_raw <- c("P_static", "P_dynamic", "P_combined", "P_Spearman")
-    method_label <- c("scar-QTL: static", "scar-QTL: dynamic", "scar-QTL: combined", "Pseudobulk")
-    method_colors4 <- c(
-      "P_static"   = "deepskyblue3",  
-      "P_dynamic"  = "brown3", 
-      "P_combined" = "mediumpurple3",
-      "P_Spearman" = "orange"
-    )
     method_lty <- c(rep("solid", 3), "dashed")
     method_shap <- c(rep(21, 3), 23)
-    names(method_colors4) <- names(method_lty) <- names(method_shap) <- method_label
+    names(method_lty) <- names(method_shap) <- method_labels6[c(1:3,6)]
   }
   
   # Load gamma-pattern and power summaries
@@ -142,7 +145,7 @@ library(stringr)
     Power_df <- readRDS(sprintf("%s/Power_df.rds", DIR_summary)) 
     Power_df <- Power_df %>% filter(alpha == 0.05) %>% 
       mutate(
-        P_method = factor(method, levels = method_raw, labels = method_label),
+        P_method = factor(method, levels = method_levels6[c(1:3,6)], labels = method_labels6[c(1:3,6)]),
         effect_size_x = factor(paste0(effect_size, "x"),
                                levels = paste0(sort(unique(Power_df$effect_size)), "x")),
         effect_size_break = ifelse(effect_size>5, effect_size/10+5, effect_size),
@@ -203,7 +206,7 @@ library(stringr)
       geom_hline(yintercept = 0.05, linetype = "dotted", color = "grey50") +
       geom_line() + 
       geom_point(fill = "white") +
-      scale_color_manual(values = method_colors4) +
+      scale_color_manual(values = method_colors6[c(1:3,6)]) +
       scale_linetype_manual(values = method_lty) +
       scale_shape_manual(values = method_shap) +
       theme_minimal() +
