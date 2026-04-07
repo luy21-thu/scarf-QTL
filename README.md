@@ -2,7 +2,7 @@
 
 Code for the manuscript:
 
-**A retrospective association test for static and dynamic single-cell eQTLs**
+**scarf-QTL: uncovering dynamic genetic regulation of gene expression in single-cell eQTL studies**
 
 ## Overview
 
