@@ -2,13 +2,13 @@
 
 Code for the manuscript:
 
-**scarf-QTL: uncovering dynamic genetic regulation of gene expression in single-cell eQTL studies**
+**scarf-QTL: Incorporating cell states for mapping eQTLs in single-cell studies**
 
 ## Overview
 
-This repository contains code for scarf-QTL, a statistical framework for genome-wide mapping of static and dynamic single-cell eQTLs. The method combines a functional mixed model with a retrospective association test to detect genetic effects that vary along pseudotime.
+This repository contains code for scarf-QTL, a statistical framework for genome-wide mapping of single-cell eQTLs while incorporating cell states. The method combines a functional mixed model with retrospective association tests to identify both static and cell-state-dependent genetic effects on gene expression.
 
-The repository includes scripts for real-data analysis, simulation studies, and a lightweight toy example. Large raw data files and intermediate results are not included in this repository.
+The repository includes scripts for real-data analysis, simulation studies, and a minimal reproducible example. Large raw data files and intermediate results are not included in this repository.
 
 ## Repository structure
 
@@ -17,7 +17,7 @@ The repository is organized into real-data and simulation pipelines.
 - `code/scarf_QTL_function.R`: core functions for scarf-QTL and the pseudobulk baseline. The scarf-QTL implementation includes model fitting, association testing, and effect estimation.
 - `code/realdata/`: scripts for reproducing the real-data analyses in the manuscript.
 - `code/simulation/`: scripts for reproducing the simulation studies in the manuscript.
-- `example/`: a lightweight toy example illustrating the basic scarf-QTL workflow on a small dataset.
+- `code/run_example.R`: a minimal reproducible example illustrating the basic scarf-QTL workflow on a synthetic dataset.
 - `data/`: input data directory.
 - `results/`: output directory for intermediate and summary results.
 
@@ -43,11 +43,13 @@ The simulation scripts should be run in the following order:
 
 Each script contains detailed comments on the required inputs, outputs, and usage.
 
-## Toy example
+## Example
 
-A lightweight toy example is provided in `example/` to illustrate the basic usage of scarf-QTL on a small dataset.
+A minimal reproducible example is provided in `code/run_example.R`.
 
-- `example/produce_toy_example_data.R`: generates the toy dataset and saves it as `example/toy_example_data.RData`
-- `example/run_toy_example.R`: loads the toy data and runs scarf-QTL on the example dataset
+The example uses a fully synthetic single-cell eQTL dataset with 1,000 individuals, five genes, and 3,000 synthetic cis-SNPs per gene. A cell-state-dependent genetic effect is introduced for one gene-SNP pair to demonstrate the retrospective association tests. The synthetic example data can be generated directly using `code/run_example.R` and are also provided as `data/toy_example_data.RData` for convenience.
 
-This toy example is intended to demonstrate the basic usage of scarf-QTL, rather than reproduce the full manuscript analyses.
+From the root directory of the repository, run:
+
+```r
+source("code/run_example.R")
